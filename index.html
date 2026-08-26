@@ -2,174 +2,18 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WL Sistemas CRM</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+<link rel="stylesheet" href="style.css">
 
-body{
-font-family:Segoe UI,Arial;
-background:#0f172a;
-color:white;
-}
-
-.login{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#0f766e,#2563eb);
-}
-
-.box{
-background:#111827;
-padding:35px;
-border-radius:20px;
-width:360px;
-box-shadow:0 20px 60px rgba(0,0,0,.4);
-}
-
-.box h1{
-text-align:center;
-margin-bottom:10px;
-}
-
-.box p{
-text-align:center;
-color:#94a3b8;
-margin-bottom:25px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin:8px 0;
-border:none;
-border-radius:10px;
-background:#1f2937;
-color:white;
-}
-
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#14b8a6;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.app{
-display:none;
-height:100vh;
-}
-
-.sidebar{
-width:230px;
-background:#111827;
-position:fixed;
-top:0;
-left:0;
-bottom:0;
-padding:20px;
-}
-
-.sidebar h2{
-color:#14b8a6;
-margin-bottom:25px;
-}
-
-.menu div{
-padding:12px;
-margin-bottom:8px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.menu div:hover{
-background:#1f2937;
-}
-
-.main{
-margin-left:230px;
-padding:25px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-gap:15px;
-margin-bottom:20px;
-}
-
-.card{
-background:#1f2937;
-padding:18px;
-border-radius:15px;
-}
-
-.card h2{
-color:#14b8a6;
-font-size:28px;
-}
-
-.toolbar{
-display:flex;
-gap:10px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
-.toolbar input{
-width:250px;
-}
-
-.board{
-display:grid;
-grid-template-columns:repeat(7,220px);
-gap:12px;
-overflow-x:auto;
-padding-bottom:20px;
-}
-
-.column{
-background:#111827;
-border-radius:12px;
-padding:10px;
-min-height:280px;
-}
-
-.column h3{
-text-align:center;
-color:#14b8a6;
-margin-bottom:10px;
-font-size:14px;
-}
-
-.lead{
-background:#1f2937;
-padding:10px;
-border-radius:10px;
-margin-bottom:10px;
-cursor:grab;
-border-left:5px solid #14b8a6;
-}
-
-small{
-color:#94a3b8;
-}
-</style>
 </head>
 
 <body>
 
-<div class="login" id="login">
+<div id="login" class="login">
 
-<div class="box">
+<div class="login-box">
 
 <h1>WL Sistemas</h1>
 <p>CRM Enterprise</p>
@@ -177,181 +21,71 @@ color:#94a3b8;
 <input id="user" placeholder="Usuário">
 <input id="pass" type="password" placeholder="Senha">
 
-<button onclick="entrar()">Entrar</button>
+<button onclick="login()">Entrar</button>
 
 </div>
 
 </div>
 
-<div class="app" id="app">
+<div id="app" class="app">
 
-<div class="sidebar">
+<aside>
 
 <h2>WL CRM</h2>
 
-<div class="menu">
+<nav>
 
 <div>Dashboard</div>
 <div>Leads</div>
-<div>Empresas</div>
 <div>Agenda</div>
 <div>Relatórios</div>
 
-</div>
+</nav>
+
+</aside>
+
+<main>
+
+<div class="topo">
+
+<h1>Dashboard</h1>
 
 </div>
-
-<div class="main">
 
 <div class="cards">
 
 <div class="card">
-<h2 id="k1">0</h2>
+<h2 id="totalLeads">0</h2>
 <p>Leads</p>
 </div>
 
 <div class="card">
-<h2 id="k2">0</h2>
-<p>Demonstrações</p>
-</div>
-
-<div class="card">
-<h2 id="k3">0</h2>
+<h2 id="fechados">0</h2>
 <p>Fechados</p>
 </div>
 
 <div class="card">
-<h2 id="k4">R$0</h2>
+<h2 id="receita">R$0</h2>
 <p>Receita</p>
 </div>
 
 </div>
 
-<div class="toolbar">
+<div class="novoLead">
 
-<input id="empresa" placeholder="Nova empresa">
+<input id="empresa" placeholder="Nome da empresa">
 
-<button onclick="novoLead()" style="width:auto;padding:12px 20px;">
-Novo Lead
-</button>
+<button onclick="novoLead()">Novo Lead</button>
 
 </div>
 
-<div class="board" id="board"></div>
+<div id="kanban" class="kanban"></div>
+
+</main>
 
 </div>
 
-</div>
-
-<script>
-
-const etapas=["Lead","Contato","Demonstração","Proposta","Follow-up","Fechado","Perdido"];
-
-let leads=JSON.parse(localStorage.getItem("wlcrm")||"[]");
-
-function entrar(){
-
-const u=user.value;
-const p=pass.value;
-
-if((u=="Pablo"||u=="Wesley")&&p=="123456"){
-
-login.style.display="none";
-app.style.display="block";
-render();
-
-}else{
-
-alert("Usuário ou senha inválidos");
-
-}
-
-}
-
-function salvar(){
-
-localStorage.setItem("wlcrm",JSON.stringify(leads));
-
-}
-
-function novoLead(){
-
-if(!empresa.value)return;
-
-leads.push({
-
-id:Date.now(),
-empresa:empresa.value,
-etapa:"Lead"
-
-});
-
-empresa.value="";
-salvar();
-render();
-
-}
-
-function render(){
-
-board.innerHTML="";
-
-etapas.forEach(et=>{
-
-let c=document.createElement("div");
-
-c.className="column";
-c.dataset.etapa=et;
-
-c.ondragover=e=>e.preventDefault();
-
-c.ondrop=e=>{
-
-let id=e.dataTransfer.getData("id");
-
-let l=leads.find(x=>x.id==id);
-
-l.etapa=et;
-
-salvar();
-
-render();
-
-};
-
-c.innerHTML="<h3>"+et+"</h3>";
-
-leads.filter(x=>x.etapa==et).forEach(l=>{
-
-let card=document.createElement("div");
-
-card.className="lead";
-
-card.draggable=true;
-
-card.ondragstart=e=>e.dataTransfer.setData("id",l.id);
-
-card.innerHTML="<b>"+l.empresa+"</b><br><small>"+l.etapa+"</small>";
-
-c.appendChild(card);
-
-});
-
-board.appendChild(c);
-
-});
-
-k1.innerText=leads.length;
-
-k2.innerText=leads.filter(x=>x.etapa=="Demonstração").length;
-
-k3.innerText=leads.filter(x=>x.etapa=="Fechado").length;
-
-k4.innerText="R$ "+leads.filter(x=>x.etapa=="Fechado").length*2500;
-
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
