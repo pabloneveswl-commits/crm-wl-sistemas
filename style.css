@@ -1,93 +1,74 @@
+:root{
+  --bg:#0f172a;
+  --sidebar:#111827;
+  --card:#1f2937;
+  --accent:#14b8a6;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
-font-family:Segoe UI;
-background:#0f172a;
-color:white;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Segoe UI,Arial,sans-serif;
 }
 
-.login{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#0f766e,#2563eb);
+header{
+  background:linear-gradient(90deg,#0f766e,#2563eb);
+  padding:18px 24px;
 }
 
-.login-box{
-background:#111827;
-padding:35px;
-border-radius:20px;
-width:340px;
+.container{padding:20px;}
+
+.top{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+input,button{
+  padding:12px;
+  border-radius:10px;
+  border:none;
 }
 
 input{
-width:100%;
-padding:12px;
-margin:8px 0;
-background:#1f2937;
-border:none;
-border-radius:10px;
-color:white;
+  background:var(--card);
+  color:white;
 }
 
 button{
-padding:12px 20px;
-background:#14b8a6;
-border:none;
-color:white;
-border-radius:10px;
-cursor:pointer;
-}
-
-.app{
-display:none;
-}
-
-aside{
-position:fixed;
-width:220px;
-height:100%;
-background:#111827;
-padding:20px;
-}
-
-main{
-margin-left:240px;
-padding:20px;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
 }
 
 .cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-gap:15px;
-margin:20px 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin:20px 0;
 }
 
 .card{
-background:#1f2937;
-padding:20px;
-border-radius:15px;
+  background:var(--card);
+  border-radius:15px;
+  padding:18px;
 }
 
-.kanban{
-display:grid;
-grid-template-columns:repeat(7,220px);
-gap:10px;
-overflow-x:auto;
+.card h2{
+  color:var(--accent);
+  font-size:30px;
 }
 
-.coluna{
-background:#111827;
-padding:10px;
-border-radius:12px;
-min-height:250px;
-}
-
-.lead{
-background:#1f2937;
-padding:10px;
-border-radius:10px;
-margin:8px 0;
-cursor:grab;
-border-left:4px solid #14b8a6;
+.lista .item{
+  background:var(--sidebar);
+  border-left:5px solid var(--accent);
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:12px;
 }
