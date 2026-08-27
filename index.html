@@ -5,87 +5,135 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WL Sistemas CRM</title>
 
-<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:#0f172a;
+color:white;
+}
+header{
+background:linear-gradient(90deg,#0f766e,#2563eb);
+padding:18px;
+}
+.container{
+padding:20px;
+}
+input,button{
+padding:12px;
+border-radius:10px;
+border:none;
+margin:5px;
+}
+input{
+background:#1f2937;
+color:white;
+}
+button{
+background:#14b8a6;
+color:white;
+cursor:pointer;
+}
+.card{
+background:#111827;
+padding:15px;
+border-radius:12px;
+margin:10px 0;
+}
+</style>
 
 </head>
 
 <body>
 
-<div id="login" class="login">
+<header>
 
-<div class="login-box">
+<h1>WL Sistemas CRM</h1>
+<p>Conectado ao Supabase</p>
 
-<h1>WL Sistemas</h1>
-<p>CRM Enterprise</p>
+</header>
 
-<input id="user" placeholder="Usuário">
-<input id="pass" type="password" placeholder="Senha">
+<div class="container">
 
-<button onclick="login()">Entrar</button>
+<input id="empresa" placeholder="Empresa">
+<input id="cidade" placeholder="Cidade">
+<button onclick="salvarLead()">Salvar Lead</button>
 
-</div>
-
-</div>
-
-<div id="app" class="app">
-
-<aside>
-
-<h2>WL CRM</h2>
-
-<nav>
-
-<div>Dashboard</div>
-<div>Leads</div>
-<div>Agenda</div>
-<div>Relatórios</div>
-
-</nav>
-
-</aside>
-
-<main>
-
-<div class="topo">
-
-<h1>Dashboard</h1>
+<div id="lista"></div>
 
 </div>
 
-<div class="cards">
+<script>
 
+const supabase=window.supabase.createClient(
+"https://gxfyeiqstfrnimzgkgvw.supabase.co",
+"SUA_ANON_KEY_AQUI"
+);
+
+async function carregar(){
+
+const {data,error}=await supabase
+.from("leads")
+.select("*")
+.order("id",{ascending:false});
+
+const lista=document.getElementById("lista");
+
+lista.innerHTML="";
+
+if(error){
+
+lista.innerHTML="Erro ao carregar.";
+
+return;
+
+}
+
+data.forEach(l=>{
+
+lista.innerHTML+=`
 <div class="card">
-<h2 id="totalLeads">0</h2>
-<p>Leads</p>
-</div>
 
-<div class="card">
-<h2 id="fechados">0</h2>
-<p>Fechados</p>
-</div>
+<b>${l.empresa}</b><br>
 
-<div class="card">
-<h2 id="receita">R$0</h2>
-<p>Receita</p>
-</div>
+Cidade: ${l.cidade||"-"}<br>
+
+Etapa: ${l.etapa}
 
 </div>
+`;
 
-<div class="novoLead">
+});
 
-<input id="empresa" placeholder="Nome da empresa">
+}
 
-<button onclick="novoLead()">Novo Lead</button>
+async function salvarLead(){
 
-</div>
+const empresa=document.getElementById("empresa").value;
+const cidade=document.getElementById("cidade").value;
 
-<div id="kanban" class="kanban"></div>
+if(!empresa)return;
 
-</main>
+await supabase.from("leads").insert({
 
-</div>
+empresa,
+cidade,
+vendedor:"Pablo"
 
-<script src="app.js"></script>
+});
+
+empresa.value="";
+cidade.value="";
+
+carregar();
+
+}
+
+carregar();
+
+</script>
 
 </body>
 </html>
